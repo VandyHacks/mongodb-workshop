@@ -11,4 +11,4 @@ const workoutSchema = new Schema<WorkoutType>({
   weight: Number,
 });
 
-export const Workout = models.workouts || model<WorkoutType>("Workout", workoutSchema);
+export const Workout = models.Workout || model<WorkoutType>("Workout", workoutSchema);

@@ -18,9 +18,5 @@ export async function POST(request: Request) {
   const body = await request.json();
   const doc = new Workout(body);
   const response = await doc.save();
-  return new Response(JSON.stringify(response), {
-    headers: {
-      "content-type": "application/json",
-    },
-  });
+  return new Response(JSON.stringify(response));
 }

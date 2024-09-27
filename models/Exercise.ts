@@ -10,4 +10,4 @@ export const exerciseSchema = new Schema<ExerciseType>({
 
 console.log(models)
 
-export const Exercise = models.exercises || model<ExerciseType>("Exercise", exerciseSchema);
+export const Exercise = models.Exercise || model<ExerciseType>("Exercise", exerciseSchema);

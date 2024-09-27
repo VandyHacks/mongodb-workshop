@@ -58,9 +58,5 @@ export async function GET() {
     totalSets: totalSets[0]?.total || 0,
     totalLifted: totalLifted[0]?.total || 0,
   }
-  return new Response(JSON.stringify(stats), {
-    headers: {
-      "content-type": "application/json",
-    },
-  });
+  return new Response(JSON.stringify(stats));
 }
