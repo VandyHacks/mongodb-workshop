@@ -1,6 +1,10 @@
-import { workouts } from "@/constants/fake-data";
+import dbConnect from "@/lib/db-connect";
+import { Workout } from "@/models/Workout";
 
-export function GET() {
+export async function GET() {
+  await dbConnect();
+
+  const workouts = await Workout.find({}).populate("exercise").exec();
   return new Response(JSON.stringify(workouts), {
     headers: {
       "content-type": "application/json",
@@ -9,7 +13,14 @@ export function GET() {
 }
 
 export async function POST(request: Request) {
+  await dbConnect();
+  
   const body = await request.json();
-  console.log(body)
-  return new Response();
+  const doc = new Workout(body);
+  const response = await doc.save();
+  return new Response(JSON.stringify(response), {
+    headers: {
+      "content-type": "application/json",
+    },
+  });
 }
