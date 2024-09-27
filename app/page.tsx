@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 import CreateWorkout from "./components/CreateWorkout";
 import WorkoutCard from "./components/WorkoutCard";
 import StatsModal from "./components/StatsModal";
-import { Exercise, Stats, Workout } from "@/types/types";
+import { ExerciseType, Stats, WorkoutType } from "@/types/types";
 
 export default function Home() {
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [statsModalVisible, setStatsModalVisible] = useState(false);
-  const [workoutList, setWorkoutList] = useState<Workout[]>([]);
-  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [workoutList, setWorkoutList] = useState<WorkoutType[]>([]);
+  const [exercises, setExercises] = useState<ExerciseType[]>([]);
   const [stats, setStats] = useState<Stats>({
     totalWorkouts: 0,
     totalReps: 0,
@@ -36,7 +36,6 @@ export default function Home() {
     fetch("/api/workouts")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setWorkoutList(data);
       });
   }, []);
@@ -60,7 +59,7 @@ export default function Home() {
       />
       <div className="flex gap-3 flex-col w-1/2">
         {workoutList.map((workout) => (
-          <WorkoutCard workout={workout} key={workout.id} />
+          <WorkoutCard workout={workout} key={workout._id} />
         ))}
       </div>
       <CreateWorkout

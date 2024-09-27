@@ -1,15 +1,17 @@
-export type Exercise = {
+export type ExerciseType = {
   name: string;
   muscleGroup: string;
   equipment: string;
   difficulty: number;
+  _id?: string;
 };
 
-export type Workout = {
-  id: string;
-  exercise: Exercise;
+export type WorkoutType = {
+  _id: string;
+  exercise: ExerciseType;
   reps: number;
   sets: number;
+  weight: number;
 };
 
 export type Stats = {

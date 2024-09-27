@@ -1,6 +1,6 @@
-import { Exercise, Workout } from "@/types/types";
+import { ExerciseType, WorkoutType } from "@/types/types";
 
-export const exercises: Exercise[] = [
+export const exercises: ExerciseType[] = [
   {
     name: "Deadlift",
     muscleGroup: "Back",
@@ -33,45 +33,50 @@ export const exercises: Exercise[] = [
   },
 ];
 
-export const workouts: Workout[] = [
+export const workouts: WorkoutType[] = [
   {
-    id: "w1",
+    _id: "w1",
     exercise: exercises[0], // Deadlift
     reps: 5,
     sets: 3,
+    weight: 225,
   },
   {
-    id: "w2",
+    _id: "w2",
     exercise: exercises[1], // Bench Press
     reps: 8,
     sets: 4,
+    weight: 185,
   },
   {
-    id: "w3",
+    _id: "w3",
     exercise: exercises[2], // Squat
     reps: 6,
     sets: 3,
+    weight: 275,
   },
   {
-    id: "w4",
+    _id: "w4",
     exercise: exercises[3], // Pull-Up
     reps: 10,
     sets: 4,
+    weight: 0,
   },
   {
-    id: "w5",
+    _id: "w5",
     exercise: exercises[4], // Bicep Curl
     reps: 12,
     sets: 3,
+    weight: 25,
   },
 ];
 
 export const stats = {
   totalWorkouts: workouts.length,
-  totalReps: workouts.reduce((acc, workout) => acc + workout.reps, 0),
+  totalReps: workouts.reduce((acc, workout) => acc + workout.reps * workout.sets, 0),
   totalSets: workouts.reduce((acc, workout) => acc + workout.sets, 0),
   totalLifted: workouts.reduce(
-    (acc, workout) => acc + workout.reps * workout.sets,
+    (acc, workout) => acc + workout.reps * workout.sets * workout.weight,
     0
   ),
 };

@@ -1,4 +1,4 @@
-import { Exercise, Workout } from "@/types/types";
+import { ExerciseType, WorkoutType } from "@/types/types";
 import { AutoComplete, AutoCompleteProps, InputNumber, Modal } from "antd";
 import { SetStateAction, useState } from "react";
 
@@ -8,31 +8,47 @@ export default function CreateWorkout({
   setIsVisible,
   setWorkoutList,
 }: Readonly<{
-  exercises: Exercise[];
+  exercises: ExerciseType[];
   isVisible: boolean;
   setIsVisible: (value: SetStateAction<boolean>) => void;
-  setWorkoutList: (value: SetStateAction<Workout[]>) => void;
+  setWorkoutList: (value: SetStateAction<WorkoutType[]>) => void;
 }>) {
   const [value, setValue] = useState("");
   const [reps, setReps] = useState(5);
   const [sets, setSets] = useState(3);
+  const [weight, setWeight] = useState(25);
   const [options, setOptions] =
     useState<AutoCompleteProps["options"]>(exercises);
 
   const handleCreateOk = () => {
     setIsVisible(false);
-    setWorkoutList((prevWorkouts: Workout[]) => [
+    const exercise = exercises.find((exercise) => exercise.name === value);
+    setWorkoutList((prevWorkouts: WorkoutType[]) => [
       ...prevWorkouts,
       {
-        id: `w${prevWorkouts.length + 1}`,
-        exercise: exercises.find((exercise) => exercise.name === value)!,
-        reps: 5,
-        sets: 3,
+        _id: `w${prevWorkouts.length + 1}`,
+        exercise: exercise!,
+        reps: reps,
+        sets: sets,
+        weight: weight,
       },
     ]);
     setValue("");
     setReps(5);
     setSets(3);
+    setWeight(25);
+    fetch("/api/workouts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        exercise: exercise?._id,
+        reps,
+        sets,
+        weight,
+      }),
+    });
   };
 
   const handleCreateCancel = () => {
@@ -68,7 +84,7 @@ export default function CreateWorkout({
         <p>Reps</p>
         <InputNumber
           min={1}
-          max={10}
+          max={20}
           defaultValue={5}
           placeholder="Reps"
           value={reps}
@@ -82,6 +98,14 @@ export default function CreateWorkout({
           placeholder="Sets"
           value={sets}
           onChange={(value) => value && setSets(value)}
+        />
+        <InputNumber
+          min={1}
+          max={500}
+          defaultValue={3}
+          placeholder="Weight"
+          value={weight}
+          onChange={(value) => value && setWeight(value)}
         />
       </div>
     </Modal>
